@@ -1,0 +1,363 @@
+
+
+
+#include <iostream>
+#include "fraction.h"
+using namespace std;
+
+
+
+
+fraction::fraction(int inNumerator, int inDenominator)
+{
+    numerator = inNumerator;
+    denominator = inDenominator;
+    reduce();
+}
+
+
+
+
+
+
+
+
+void fraction::reduce()
+{
+    int gcf;
+
+        if (denominator < 0){
+            denominator = denominator * -1;
+            numerator = numerator * -1;
+        }
+
+        gcf = abs(numerator);
+
+        while ( gcf > 0 && (numerator % gcf !=0) || (denominator % gcf !=0)) {
+            gcf--;
+        }
+
+
+    numerator /= gcf;
+    denominator /= gcf;
+
+
+}
+
+
+
+
+
+
+
+
+fraction operator+(const fraction &left, const fraction &right)
+{
+    fraction sum;
+
+    sum.numerator = ((left.numerator * right.denominator) + (right.numerator * left.denominator));
+    sum.denominator = (left.denominator * right.denominator);
+    sum.reduce();
+
+    return sum;
+}
+
+
+
+
+
+
+
+
+
+
+fraction operator-(const fraction &left, const fraction &right)
+{
+    fraction difference;
+
+    difference.numerator = ((left.numerator * right.denominator) - (right.numerator * left.denominator));
+    difference.denominator = (left.denominator * right.denominator);
+    difference.reduce();
+
+    return difference;
+}
+
+
+
+
+
+
+
+
+
+
+fraction operator*(const fraction &left, const fraction &right)
+{
+    fraction product;
+
+    product.numerator = (left.numerator * right.numerator);
+    product.denominator = (left.denominator * right.denominator);
+    product.reduce();
+
+    return product;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+fraction operator/(const fraction &left, const fraction &right)
+{
+    fraction quotient;
+
+    quotient.numerator = (left.numerator * right.denominator);
+    quotient.denominator = (left.denominator * right.numerator);
+    quotient.reduce();
+
+    return quotient;
+}
+
+
+
+
+
+
+
+
+
+
+
+fraction fraction::operator+=(const fraction &right)
+{
+    *this = *this + right;
+
+    return *this;
+}
+
+
+
+
+
+
+
+
+
+
+fraction fraction::operator-=(const fraction &right)
+{
+    *this = *this - right;
+
+    return *this;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+fraction fraction::operator*=(const fraction &right)
+{
+    *this = *this * right;
+
+    return *this;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+fraction fraction::operator/=(const fraction &right)
+{
+    *this = *this / right;
+
+    return *this;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ostream& operator<<(ostream& out, const fraction& right)
+{
+    if (right.denominator == 1){
+        out << right.numerator;
+    } else  if (abs(right.numerator) < right.denominator){
+        out << right.numerator << "/" << right.denominator;
+    } else {
+        out << right.numerator/right.denominator << "+" <<
+            (abs(right.numerator % right.denominator)) << "/" <<
+            right.denominator;
+    }
+
+    return out;
+
+}
+
+
+
+
+
+
+
+bool operator<(const fraction &left, const fraction &right)
+{
+    return (left.numerator * right.denominator) < (right.numerator * left.denominator);
+}
+
+
+
+
+
+
+
+
+
+
+bool operator>(const fraction &left, const fraction &right)
+{
+    return operator<(right, left);
+}
+
+
+
+
+
+
+
+
+
+bool operator==(const fraction &left, const fraction &right)
+{
+    return (left.numerator * right.denominator) == (right.numerator * left.denominator);
+}
+
+
+
+
+
+
+
+
+bool operator!=(const fraction &left, const fraction &right)
+{
+    return !operator==(left, right);
+}
+
+
+
+
+
+
+
+
+
+
+
+bool operator<=(const fraction &left, const fraction &right)
+{
+    return !operator>(left, right);
+}
+
+
+
+
+
+
+
+
+
+
+bool operator>=(const fraction &left, const fraction &right)
+{
+    return !operator<(left, right);
+}
+
+
+
+
+
+
+
+
+
+
+fraction fraction::operator++()
+{
+    numerator = numerator + denominator;
+    return *this;
+}
+
+
+
+
+
+
+
+
+
+
+fraction fraction::operator++(int)
+{
+    fraction temp(numerator, denominator);
+    numerator = numerator + denominator;
+    return temp;
+}
+
+
+
+
+
+
+
+
+
+
+
+fraction fraction::operator--()
+{
+    numerator = numerator - denominator;
+    return *this;
+}
+
+
+
+
+
+
+
+fraction fraction::operator--(int)
+{
+    fraction temp(numerator, denominator);
+    numerator = numerator - denominator;
+    return temp;
+}

@@ -1,0 +1,44 @@
+
+
+#ifndef FRACTION_H
+#define FRACTION_H
+
+
+#include <iostream>
+using namespace std;
+
+
+class fraction {
+      public:
+             fraction(int inNumerator=0, int inDenominator=1);
+             friend fraction operator+(const fraction &left, const fraction &right);
+             friend fraction operator-(const fraction &left, const fraction &right);
+             friend fraction operator*(const fraction &left, const fraction &right);
+             friend fraction operator/(const fraction &left, const fraction &right);
+             fraction operator+=(const fraction &right);
+             fraction operator-=(const fraction &right);
+             fraction operator*=(const fraction &right);
+             fraction operator/=(const fraction &right);
+             fraction operator++();
+             fraction operator++(int);
+             fraction operator--();
+             fraction operator--(int);
+             friend ostream& operator<<(ostream& out, const fraction &right);
+             friend bool operator<(const fraction &left, const fraction &right);
+             friend bool operator>(const fraction &left, const fraction &right);
+             friend bool operator==(const fraction &left, const fraction &right);
+             friend bool operator!=(const fraction &left, const fraction &right);
+             friend bool operator<=(const fraction &left, const fraction &right);
+             friend bool operator>=(const fraction &left, const fraction &right);
+
+
+      private:
+              int numerator;
+              int denominator;
+              void reduce();
+};
+
+#endif
+
+
+
